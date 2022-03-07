@@ -30,11 +30,11 @@ Comparison of 3 and 7T pRF experiment for sub-01
 ## Post-processing
 
 ### Data saving structure
-  01 Subject (sub-01) 
-x 02 preprocessing steps (fmriprep_dct, fmriprep_dct_pca)
-x 02 contrasts (pRF3T, pRF7T)
-x 02 registration types (T1w, fs-170k)
-x 02 averaging methods (avg: fit across averaged runs; avg-loo: average of fit of leave-one-out average runs)
+  01 Subject (sub-01)<br>
+x 02 preprocessing steps (fmriprep_dct, fmriprep_dct_pca)<br>
+x 02 contrasts (pRF3T, pRF7T)<br>
+x 02 registration types (T1w, fs-170k)<br>
+x 02 averaging methods (avg: fit across averaged runs; avg-loo: average of fit of leave-one-out average runs)<br>
 
 ### pRF
 1. run the prf fit with _prf/fit/run_prf_fit.sh_
