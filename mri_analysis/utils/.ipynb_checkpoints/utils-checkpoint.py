@@ -105,8 +105,8 @@ def set_pycortex_config_file(data_folder):
     # deb = ipdb.set_trace
 
     # Define the new database and colormaps folder
-    pycortex_db_folder = data_folder + '/pp_data_new/cortex/db/'
-    pycortex_cm_folder = data_folder + '/pp_data_new/cortex/colormaps/'
+    pycortex_db_folder = data_folder + '/pp_data/cortex/db/'
+    pycortex_cm_folder = data_folder + '/pp_data/cortex/colormaps/'
 
     # Get pycortex config file location
     pycortex_config_file  = cortex.options.usercfg

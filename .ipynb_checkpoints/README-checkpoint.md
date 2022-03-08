@@ -25,18 +25,19 @@ Comparison of 3 and 7T pRF experiment for sub-01
 1. run fmriprep on mesocentre using _mri_analysis/preproc/fmriprep_sbatch.py_
 3. run pybest (modified repo to save niftis) to high pass filter and denoised the data with _/preproc/pybest_sbatch.py_
 4. copy files in pp_data and average task runs (including leave-one-out procedure) together with _preproc/preproc_end.py_
+5. Import in pycortex with _preproc/pycortex_import.py_
 
 ## Post-processing
 
 ### Data saving structure
 Subject(s) (sub-01)<br>
-x 02 preprocessing steps (fmriprep_dct, fmriprep_dct_pca)<br>
+x 01 preprocessing steps (fmriprep_dct)<br>
 x 02 contrasts (pRF3T, pRF7T)<br>
-x 02 registration types (T1w, fs-170k)<br>
-x 02 averaging methods (avg: fit across averaged runs; avg-loo: average of fit of leave-one-out average runs)<br>
+x 01 registration types (T1w)<br>
+x 01 averaging methods (avg: fit across averaged runs)<br>
 
 ### pRF
-0. Import in pycortex with _preproc/pycortex_import.py_
+
 1. run the prf fit with _prf/fit/run_prf_fit.sh_
 2. compute pRF parameters and leave-one-out cross-validated r2 with _prf/post_fit/run_post_fit.sh_
 3. make pycortex maps using with _prf/post_fit/run_pycortex_maps.sh_ 
