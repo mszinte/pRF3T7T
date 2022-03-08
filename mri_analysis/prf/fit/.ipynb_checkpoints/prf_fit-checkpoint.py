@@ -7,24 +7,25 @@ pRF fit code
 -----------------------------------------------------------------------------------------
 Input(s):
 sys.argv[1]: subject name
-sys.argv[2]: registration type
-sys.argv[3]: pre-processing steps (fmriprep_dct or fmriprep_dct_pca)
-sys.argv[4]: recorded time series filename and path
-sys.argv[5]: prf fit filename and path
-sys.argv[5]: predicted time series filename and path
-sys.argv[6]: number of processors
+sys.argv[2]: task
+sys.argv[3]: registration type
+sys.argv[4]: pre-processing steps (fmriprep_dct or fmriprep_dct_pca)
+sys.argv[5]: recorded time series filename and path
+sys.argv[6]: prf fit filename and path
+sys.argv[7]: predicted time series filename and path
+sys.argv[8]: number of processors
 -----------------------------------------------------------------------------------------
 Output(s):
 Nifti image files with fit parameters for a z slice
 -----------------------------------------------------------------------------------------
 To run :
 >> cd to function directory
->> python fit/prf_fit.py [subject] [registration] [preproc]
+>> python fit/prf_fit.py [subject] [task] [registration] [preproc]
                          [intput file] [fit file] [predic file] [nb_procs]
 -----------------------------------------------------------------------------------------
 Exemple:
 cd /home/mszinte/projects/PredictEye/mri_analysis/
-python fit/prf_fit.py sub-01 T1w fmriprep_dct /path_to... /path_to... /path_to... 8
+python fit/prf_fit.py sub-01 pRF3T T1w fmriprep_dct /path_to... /path_to... /path_to... 8
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
@@ -59,12 +60,15 @@ import nibabel as nb
 # ----------
 start_time = datetime.datetime.now()
 subject = sys.argv[1]
-regist_type = sys.argv[2]
-preproc = sys.argv[3]
-input_fn = sys.argv[4]
-fit_fn = sys.argv[5]
-pred_fn = sys.argv[6]
-nb_procs = int(sys.argv[7])
+task = sys.argv[2]
+if task == 'pRF3T': task_num = 0
+elif task == 'pRF7T': task_num = 1
+regist_type = sys.argv[3]
+preproc = sys.argv[4]
+input_fn = sys.argv[5]
+fit_fn = sys.argv[6]
+pred_fn = sys.argv[7]
+nb_procs = int(sys.argv[8])
 
 # Define analysis parameters
 with open('settings.json') as f:
@@ -75,7 +79,7 @@ with open('settings.json') as f:
 base_dir = analysis_info['base_dir']
 
 # Get task specific settings
-visual_dm_file = scipy.io.loadmat('{}/pp_data_new/visual_dm/pRF_vd.mat'.format(base_dir))
+visual_dm_file = scipy.io.loadmat('{}/pp_data/visual_dm/{}_vd.mat'.format(base_dir,task))
 visual_dm = visual_dm_file['stim'].transpose([1,0,2])
 
 # Load data
@@ -102,14 +106,14 @@ elif data.ndim == 2:
 pred_mat = np.zeros(data.shape)
 
 # determine model
-stimulus = PRFStimulus2D(   screen_size_cm=analysis_info['screen_width'],
-                            screen_distance_cm=analysis_info['screen_distance'],
+stimulus = PRFStimulus2D(   screen_size_cm=analysis_info['screen_width'][task_num],
+                            screen_distance_cm=analysis_info['screen_distance'][task_num],
                             design_matrix=visual_dm,
-                            TR=analysis_info['TR'])
+                            TR=analysis_info['TR'][task_num])
 
 gauss_model = Iso2DGaussianModel(stimulus=stimulus)
 grid_nr = analysis_info['grid_nr']
-max_ecc_size = analysis_info['max_ecc_size']
+max_ecc_size = analysis_info['max_ecc_size'][task_num]
 sizes = max_ecc_size * np.linspace(0.1,1,grid_nr)**2
 eccs = max_ecc_size * np.linspace(0.1,1,grid_nr)**2
 polars = np.linspace(0, 2*np.pi, grid_nr)

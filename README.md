@@ -31,15 +31,14 @@ Comparison of 3 and 7T pRF experiment for sub-01
 
 ### Data saving structure
 Subject(s) (sub-01)<br>
-x 01 preprocessing steps (fmriprep_dct)<br>
+x 01 preprocessing steps (fmriprep_dct, fmriprep_dct_pca)<br>
 x 02 contrasts (pRF3T, pRF7T)<br>
 x 01 registration types (T1w)<br>
 x 01 averaging methods (avg: fit across averaged runs)<br>
 
 ### pRF
-
 1. run the prf fit with _prf/fit/run_prf_fit.sh_
-2. compute pRF parameters and leave-one-out cross-validated r2 with _prf/post_fit/run_post_fit.sh_
+2. compute pRF parameters with _prf/post_fit/run_post_fit.sh_
 3. make pycortex maps using with _prf/post_fit/run_pycortex_maps.sh_ 
 
 ### Webgl
