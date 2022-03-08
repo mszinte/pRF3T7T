@@ -12,7 +12,7 @@ Output(s):
 None
 -----------------------------------------------------------------------------------------
 To run:
-cd /home/mszinte/projects/PredictEye/mri_analysis/
+cd /home/mszinte/projects/pRF3T7T/mri_analysis/
 python preproc/pycortex_import.py sub-01
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
@@ -50,7 +50,6 @@ from utils.utils import set_pycortex_config_file
 # ----------
 subject = sys.argv[1]
 
-
 # Define analysis parameters
 # --------------------------
 with open('settings.json') as f:
@@ -69,7 +68,6 @@ cortex_dir = "{base_dir}/pp_data_new/cortex/db/{subject}".format(base_dir = base
 # Set pycortex db and colormaps
 # -----------------------------
 set_pycortex_config_file(base_dir)
-
 
 # Add participant to pycortex db
 # ------------------------------

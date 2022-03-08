@@ -13,7 +13,7 @@ Output(s):
 -----------------------------------------------------------------------------------------
 To run:
 1. cd to function
->> cd /home/mszinte/projects/PredictEye/mri_analysis/
+>> cd /home/mszinte/projects/pRF3T7T/mri_analysis/
 2. run python command
 python preproc/preproc_end.py [subject name] [registration_type]
 -----------------------------------------------------------------------------------------
@@ -67,24 +67,24 @@ base_dir = analysis_info['base_dir']
 
 # Copy files in pp_data folder
 # ----------------------------
-dest_folder1 = "{base_dir}/pp_data_new/{sub}/func/fmriprep_dct".format(base_dir=base_dir, sub=sub_name)
+dest_folder1 = "{base_dir}/pp_data/{sub}/func/fmriprep_dct".format(base_dir=base_dir, sub=sub_name)
 try: os.makedirs(dest_folder1)
 except: pass
 
-dest_folder2 = "{base_dir}/pp_data_new/{sub}/func/fmriprep_dct_pca".format(base_dir=base_dir, sub=sub_name)
+dest_folder2 = "{base_dir}/pp_data/{sub}/func/fmriprep_dct_pca".format(base_dir=base_dir, sub=sub_name)
 try: os.makedirs(dest_folder2)
 except: pass
 
-dest_folder3 = "{base_dir}/pp_data_new/{sub}/loo/fmriprep_dct".format(base_dir=base_dir, sub=sub_name)
+dest_folder3 = "{base_dir}/pp_data/{sub}/loo/fmriprep_dct".format(base_dir=base_dir, sub=sub_name)
 try: os.makedirs(dest_folder3)
 except: pass
 
-dest_folder4 = "{base_dir}/pp_data_new/{sub}/loo/fmriprep_dct_pca".format(base_dir=base_dir, sub=sub_name)
+dest_folder4 = "{base_dir}/pp_data/{sub}/loo/fmriprep_dct_pca".format(base_dir=base_dir, sub=sub_name)
 try: os.makedirs(dest_folder4)
 except: pass
 
 
-orig_folder = "{base_dir}/deriv_data/pybest_new/{sub}".format(base_dir=base_dir, sub=sub_name)
+orig_folder = "{base_dir}/deriv_data/pybest/{sub}".format(base_dir=base_dir, sub=sub_name)
 
 for task_num, task_name in enumerate(analysis_info['task_names']):
     for task_run in np.arange(0,analysis_info['task_runs'][task_num],1):
@@ -115,13 +115,13 @@ for preproc in analysis_info['preproc']:
         for file_end in file_ends:
             print('avg: '+task_name+' type: '+file_end)
 
-            file_list = sorted(glob.glob("{base_dir}/pp_data_new/{sub}/func/{preproc}/*{task_name}*_space-{reg}_{preproc}{file_end}".format(
+            file_list = sorted(glob.glob("{base_dir}/pp_data/{sub}/func/{preproc}/*{task_name}*_space-{reg}_{preproc}{file_end}".format(
                                          base_dir=base_dir, sub=sub_name, preproc=preproc,task_name=task_name, reg=regist_type, file_end=file_end)))
             
             if len(file_list):
                 
                 # save
-                new_file = "{base_dir}/pp_data_new/{sub}/func/{sub}_task-{task_name}_space-{reg}_{preproc}_avg{file_end}".format(
+                new_file = "{base_dir}/pp_data/{sub}/func/{sub}_task-{task_name}_space-{reg}_{preproc}_avg{file_end}".format(
                             base_dir=base_dir, sub=sub_name, preproc=preproc, task_name=task_name, reg=regist_type, file_end=file_end)
 
 
@@ -156,7 +156,7 @@ for preproc in analysis_info['preproc']:
         for file_end in file_ends:
             
 
-            file_list = sorted(glob.glob("{base_dir}/pp_data_new/{sub}/func/{preproc}/*{task_name}*_space-{reg}_{preproc}{file_end}".format(
+            file_list = sorted(glob.glob("{base_dir}/pp_data/{sub}/func/{preproc}/*{task_name}*_space-{reg}_{preproc}{file_end}".format(
                                          base_dir=base_dir, sub=sub_name, preproc=preproc,task_name=task_name, reg=regist_type, file_end=file_end)))
             
             if len(file_list):
@@ -166,7 +166,7 @@ for preproc in analysis_info['preproc']:
                     print('loo avg %i: '%loo_num +task_name+' type: '+file_end)
                     
                     # compute average between loo runs
-                    new_file_avg = "{base_dir}/pp_data_new/{sub}/loo/{preproc}/{sub}_task-{task_name}_space-{reg}_{preproc}_avg-{loo_num}{file_end}".format(
+                    new_file_avg = "{base_dir}/pp_data/{sub}/loo/{preproc}/{sub}_task-{task_name}_space-{reg}_{preproc}_avg-{loo_num}{file_end}".format(
                                 base_dir=base_dir, sub=sub_name, preproc=preproc, task_name=task_name, reg=regist_type, file_end=file_end, loo_num=loo_num+1)
                     
                     if regist_type == 'fsLR_den-170k':
@@ -200,7 +200,7 @@ for preproc in analysis_info['preproc']:
                     for run in file_list:
                         if run not in avg_runs:
                             
-                            new_file_loo = "{base_dir}/pp_data_new/{sub}/loo/{preproc}/{sub}_task-{task_name}_space-{reg}_{preproc}_loo-{loo_num}{file_end}".format(
+                            new_file_loo = "{base_dir}/pp_data/{sub}/loo/{preproc}/{sub}_task-{task_name}_space-{reg}_{preproc}_loo-{loo_num}{file_end}".format(
                                             base_dir=base_dir, sub=sub_name, preproc=preproc, task_name=task_name, reg=regist_type, file_end=file_end, loo_num=loo_num+1)
                                                         
                             print('loo run: '+run)
@@ -210,9 +210,9 @@ for preproc in analysis_info['preproc']:
                                 
 # Anatomy
 output_files = ['dseg','desc-preproc_T1w','desc-aparcaseg_dseg','desc-aseg_dseg','desc-brain_mask']
-orig_folder = "{base_dir}/deriv_data/fmriprep_new/fmriprep/{sub}".format(base_dir=base_dir, sub=sub_name)
+orig_folder = "{base_dir}/deriv_data/fmriprep/fmriprep/{sub}".format(base_dir=base_dir, sub=sub_name)
 
-dest_folder_anat = "{base_dir}/pp_data_new/{sub}/anat".format(base_dir=base_dir, sub=sub_name)
+dest_folder_anat = "{base_dir}/pp_data/{sub}/anat".format(base_dir=base_dir, sub=sub_name)
 try: os.makedirs(dest_folder_anat)
 except: pass
 

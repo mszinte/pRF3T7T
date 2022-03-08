@@ -7,8 +7,8 @@ Version:  1.0<br>
 Comparison of 3 and 7T pRF experiment for sub-01
 
 # Task
-1. pRFexp: population receptive field task adapted to 3T sequence
-2. pRFexp7T: population receptive field task adapted to 7T sequence
+1. pRFexp: population receptive field task adapted to 3T sequence ([repo](https://invibe.nohost.me/gitlab/mszinte/pRFexp))
+1. pRFexp7T: population receptive field task adapted to 7T sequence ([repo](https://invibe.nohost.me/gitlab/mszinte/prfexp7t))
 
 # MRI Analysis
 
@@ -22,21 +22,21 @@ Comparison of 3 and 7T pRF experiment for sub-01
 
 ## Pre-processing
 1. run mriqc on mesocentre using _mri_analysis/preproc/mriqc_sbatch.py_
-2. run freesurfer with manual segmentation of sub-01 using _preproc/freesurfer_pial.py_
-3. Import in pycortex with _preproc/pycortex_import.py_
-4. run pybest (modified to save niftis) to high pass filter and denoised the data with _/preproc/pybest_sbatch.py_
-5. copy files in pp_data and average task runs (including leave-one-out procedure) together with _preproc/preproc_end.py_
+1. run fmriprep on mesocentre using _mri_analysis/preproc/fmriprep_sbatch.py_
+3. run pybest (modified repo to save niftis) to high pass filter and denoised the data with _/preproc/pybest_sbatch.py_
+4. copy files in pp_data and average task runs (including leave-one-out procedure) together with _preproc/preproc_end.py_
 
 ## Post-processing
 
 ### Data saving structure
-  01 Subject (sub-01)<br>
+Subject(s) (sub-01)<br>
 x 02 preprocessing steps (fmriprep_dct, fmriprep_dct_pca)<br>
 x 02 contrasts (pRF3T, pRF7T)<br>
 x 02 registration types (T1w, fs-170k)<br>
 x 02 averaging methods (avg: fit across averaged runs; avg-loo: average of fit of leave-one-out average runs)<br>
 
 ### pRF
+0. Import in pycortex with _preproc/pycortex_import.py_
 1. run the prf fit with _prf/fit/run_prf_fit.sh_
 2. compute pRF parameters and leave-one-out cross-validated r2 with _prf/post_fit/run_post_fit.sh_
 3. make pycortex maps using with _prf/post_fit/run_pycortex_maps.sh_ 

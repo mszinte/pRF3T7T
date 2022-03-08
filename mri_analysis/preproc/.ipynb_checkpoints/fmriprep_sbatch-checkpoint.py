@@ -63,7 +63,7 @@ cluster_name  = 'skylake'
 proj_name = 'b161'
 singularity_dir = '/scratch/mszinte/softwares/fmriprep-20.2.3.simg'
 nb_procs = 32
-memory_val = 48
+memory_val = 64
 log_dir = opj(main_dir,project_dir,'deriv_data','fmriprep','log_outputs')
 
 # special input
