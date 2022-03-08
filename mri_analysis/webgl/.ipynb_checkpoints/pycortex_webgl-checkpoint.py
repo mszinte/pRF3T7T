@@ -50,8 +50,7 @@ import cortex
 
 # Get inputs
 # ----------
-base_dir = sys.argv[1]
-subject = sys.argv[2]
+subject = sys.argv[1]
 preproc = sys.argv[3]
 regist_type = sys.argv[4]
 recache = bool(int(sys.argv[5]))
@@ -64,34 +63,27 @@ with open('settings.json') as f:
     analysis_info = json.loads(json_s)
 
 # create folder
-webgl_dir = '{}/webgl/{}/'.format(base_dir, subject)
+base_dir = analysis_info["base_dir"]
+datasets_dir = '{}/pp_data/{}/prf/pycortex/datasets'.format(base_dir, subject)
+
+webgl_dir = '{}/webgl/{}_{}/'.format(base_dir, subject, preproc)
 try: os.makedirs(webgl_dir)
 except: pass
 
-# Load flatmaps
+# Load datasets
+prf3T_dataset_file = "{}/{}_task-pRF3T_space-{}_{}.hdf".format(datasets_dir, subject, task, regist_type, preproc)
+prf3T_dataset = cortex.load(prf3T_dataset_file)
 
-# pRF maps
-prf_dataset_folder = '{}/pp_data/{}/gauss/pycortex_outputs/flatmaps/prf'.format(base_dir, subject)
-prf_dataset_file = "{}/{}_space-{}_prf.hdf".format(prf_dataset_folder, subject, regist_type, preproc)
-prf_dataset = cortex.load(prf_dataset_file)
+prf7T_dataset_file = "{}/{}_task-pRF7T_space-{}_{}.hdf".format(datasets_dir, subject, task, regist_type, preproc)
+prf7T_dataset = cortex.load(prf7T_dataset_file)
 
-# sac-fix glm maps
-sacfix_dataset_folder = '{}/pp_data/{}/glm/pycortex_outputs/flatmaps/{}'.format(base_dir, subject, 'Sac-Fix')
-sacfix_dataset_file = "{}/{}_space-{}_{}_glm_{}.hdf".format(sacfix_dataset_folder, subject, regist_type, preproc, 'Sac-Fix')
-sacfix_dataset = cortex.load(sacfix_dataset_file)
-
-# sac-fix glm maps
-purfix_dataset_folder = '{}/pp_data/{}/glm/pycortex_outputs/flatmaps/{}'.format(base_dir, subject, 'Pur-Fix')
-purfix_dataset_file = "{}/{}_space-{}_{}_glm_{}.hdf".format(purfix_dataset_folder, subject, regist_type, preproc, 'Pur-Fix')
-purfix_dataset = cortex.load(purfix_dataset_file)
-
-# put together
-new_dataset = cortex.Dataset(prf = prf_dataset, sacfix = sacfix_dataset, purfix = purfix_dataset)
+# Put them together
+new_dataset = cortex.Dataset(pRF3T = prf3T_dataset, pRF7T = prf7T_dataset)
 cortex.webgl.make_static(outpath=webgl_dir, data=new_dataset, recache=recache)
 
 # Send to webapp
 # --------------
 if webapp == True:
-    webapp_dir = '{}/{}'.format(analysis_info['webapp_dir'],subject)
+    webapp_dir = '{}/{}_{}'.format(analysis_info['webapp_dir'],subject,regist_type)
     os.system('rsync -avuz --progress {local_dir} {webapp_dir}'.format(local_dir=webgl_dir, webapp_dir=webapp_dir))
-    print('go to : https://invibe.nohost.me/predicteye/{}'.format(subject))
+    print('go to : https://invibe.nohost.me/prf3t7t/{}'.format(subject))
