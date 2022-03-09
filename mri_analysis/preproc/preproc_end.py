@@ -71,27 +71,20 @@ dest_folder1 = "{base_dir}/pp_data/{sub}/func/fmriprep_dct".format(base_dir=base
 try: os.makedirs(dest_folder1)
 except: pass
 
-dest_folder2 = "{base_dir}/pp_data/{sub}/func/fmriprep_dct_pca".format(base_dir=base_dir, sub=sub_name)
-try: os.makedirs(dest_folder2)
-except: pass
-
-dest_folder3 = "{base_dir}/pp_data/{sub}/loo/fmriprep_dct".format(base_dir=base_dir, sub=sub_name)
-try: os.makedirs(dest_folder3)
-except: pass
-
-dest_folder4 = "{base_dir}/pp_data/{sub}/loo/fmriprep_dct_pca".format(base_dir=base_dir, sub=sub_name)
-try: os.makedirs(dest_folder4)
-except: pass
-
+if sub_name == 'sub-01':
+    task_runs = [5,2]
+elif sub_name == 'sub-02':
+    task_runs = [5,2]
+elif sub_name == 'sub-03':
+    task_runs = [2,2]
 
 orig_folder = "{base_dir}/deriv_data/pybest/{sub}".format(base_dir=base_dir, sub=sub_name)
 
 for task_num, task_name in enumerate(analysis_info['task_names']):
-    for task_run in np.arange(0,analysis_info['task_runs'][task_num],1):
+    for task_run in np.arange(0,task_runs[task_num],1):
         for ses_num,ses_name in enumerate(next(os.walk(orig_folder))[1]):
             for file_end in file_ends:
                 # dct func
-
                 orig_file1 = "{orig_fold}/{ses}/preproc/{sub}_{ses}_task-{task_name}_run-{task_run}_space-{reg}_desc-preproc_bold{file_end}".format(
                                         orig_fold=orig_folder, sub=sub_name, ses=ses_name, task_name=task_name, reg=regist_type, task_run=task_run+1, file_end=file_end)
                 dest_file1 = "{dest_fold}/{sub}_task-{task_name}_run-{task_run}_space-{reg}_fmriprep_dct{file_end}".format(
@@ -100,17 +93,9 @@ for task_num, task_name in enumerate(analysis_info['task_names']):
                 if os.path.isfile(orig_file1):
                     os.system("{cmd} {orig} {dest}".format(cmd=trans_cmd, orig=orig_file1, dest=dest_file1))
 
-                # dct + denoised func
-                orig_file2 = "{orig_fold}/{ses}/denoising/{sub}_{ses}_task-{task_name}_run-{task_run}_space-{reg}_desc-denoised_bold{file_end}".format(
-                                        orig_fold=orig_folder, sub=sub_name, ses=ses_name, task_name=task_name, reg=regist_type, task_run=task_run+1, file_end=file_end)
-                dest_file2 = "{dest_fold}/{sub}_task-{task_name}_run-{task_run}_space-{reg}_fmriprep_dct_pca{file_end}".format(
-                                        dest_fold=dest_folder2, sub=sub_name, task_name=task_name, reg=regist_type, task_run=task_run+1, file_end=file_end)
-
-                if os.path.isfile(orig_file2):
-                    os.system("{cmd} {orig} {dest}".format(cmd=trans_cmd, orig=orig_file2, dest=dest_file2))
 
 # Average tasks runs
-for preproc in analysis_info['preproc']:
+for preproc in analysis_info['preproc']:c
     for task_name in analysis_info['task_names']:
         for file_end in file_ends:
             print('avg: '+task_name+' type: '+file_end)
@@ -118,6 +103,7 @@ for preproc in analysis_info['preproc']:
             file_list = sorted(glob.glob("{base_dir}/pp_data/{sub}/func/{preproc}/*{task_name}*_space-{reg}_{preproc}{file_end}".format(
                                          base_dir=base_dir, sub=sub_name, preproc=preproc,task_name=task_name, reg=regist_type, file_end=file_end)))
             
+
             if len(file_list):
                 
                 # save

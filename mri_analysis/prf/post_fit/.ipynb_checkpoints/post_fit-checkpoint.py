@@ -54,6 +54,7 @@ from utils.utils import prf_fit2deriv
 import nibabel as nb
 from sklearn.metrics import r2_score
 
+
 # Define analysis parameters
 # --------------------------
 with open('settings.json') as f:

@@ -31,7 +31,7 @@ Comparison of 3 and 7T pRF experiment for sub-01
 
 ### Data saving structure
 Subject(s) (sub-01)<br>
-x 01 preprocessing steps (fmriprep_dct, fmriprep_dct_pca)<br>
+x 01 preprocessing steps (fmriprep_dct)<br>
 x 02 contrasts (pRF3T, pRF7T)<br>
 x 01 registration types (T1w)<br>
 x 01 averaging methods (avg: fit across averaged runs)<br>

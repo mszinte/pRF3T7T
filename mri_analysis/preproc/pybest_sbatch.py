@@ -11,6 +11,7 @@ sys.argv[2]: project name (correspond to directory)
 sys.argv[3]: subject (e.g. sub-01)
 sys.argv[4]: registration type (e.g. T1w)
 sys.argv[5]: server nb of hour to request (e.g 10)
+sys.argv[6]: pca noise processing (0 =no, 1 = yes)
 sys.argv[6]: email account
 -----------------------------------------------------------------------------------------
 Output(s):
@@ -24,9 +25,9 @@ python preproc/pybest_sbatch.py [main directory] [project name] [subject num]
                                 [registration type] [hour proc.] ] [email account]
 -----------------------------------------------------------------------------------------
 Exemple:
-python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 T1w 20 martin.szinte
-python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 MNI152NLin2009cAsym-res-1 20 martin.szinte
-python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 fsLR_den-170k 20 martin.szinte
+python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 T1w 20 0 martin.szinte
+python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 MNI152NLin2009cAsym-res-1 20 1 martin.szinte
+python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 fsLR_den-170k 20 1 martin.szinte
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
@@ -48,7 +49,10 @@ subject = sys.argv[3]
 sub_num = subject[-2:]
 regist_type =sys.argv[4]
 hour_proc = int(sys.argv[5])
-email_account = sys.argv[6]
+noise_proc = int(sys.argv[6])
+if noise_proc == 0: noise_proc_txt = ' --skip-noiseproc'
+elif noise_proc == 1: noise_proc_txt = ''
+email_account = sys.argv[7]
 
 # Define cluster/server specific parameters
 cluster_name  = 'skylake'
@@ -86,8 +90,8 @@ fmriprep_dir = "{main_dir}/{project_dir}/deriv_data/fmriprep/fmriprep/".format(m
 bids_dir = "{main_dir}/{project_dir}/bids_data/".format(main_dir=main_dir, project_dir=project_dir)
 pybest_dir = "{main_dir}/{project_dir}/deriv_data/pybest/".format(main_dir=main_dir,project_dir=project_dir)
 
-pybest_cmd = "pybest {fmriprep_dir} {bids_dir} {cifti_cmd} --out-dir {pybest_dir} --subject '{sub_num}' --space '{regist_type}' --high-pass-type 'dct' --noise-source fmriprep --skip-signalproc --verbose 'DEBUG' --save-all".format(
-                        fmriprep_dir=fmriprep_dir,bids_dir=bids_dir, cifti_cmd=cifti_cmd, pybest_dir=pybest_dir, sub_num=sub_num, regist_type=regist_type)
+pybest_cmd = "pybest {fmriprep_dir} {bids_dir} {cifti_cmd} --out-dir {pybest_dir} --subject '{sub_num}' --space '{regist_type}' --high-pass-type 'dct' --noise-source fmriprep --skip-signalproc --verbose 'DEBUG' --save-all{noise_proc}".format(
+                        fmriprep_dir=fmriprep_dir,bids_dir=bids_dir, cifti_cmd=cifti_cmd, pybest_dir=pybest_dir, sub_num=sub_num, regist_type=regist_type, noise_proc=noise_proc_txt)
 
 # create sh folder and file
 sh_dir = "{main_dir}/{project_dir}/deriv_data/pybest/jobs/{subject}_pybest_{regist_type}.sh".format(main_dir=main_dir, subject=subject,project_dir=project_dir,regist_type=regist_type)

@@ -24,9 +24,7 @@ Exemple:
 [TO RUN LOCALLY OR ON INVIBE SERVER]
 cd ~/disks/meso_H/projects/pRF3T7T/mri_analysis/
 ipython prf/post_fit/pycortex_maps.py sub-01 pRF3T T1w fmriprep_dct 0
-ipython prf/post_fit/pycortex_maps.py sub-01 pRF3T T1w fmriprep_dct_pca 0
 ipython prf/post_fit/pycortex_maps.py sub-01 pRF7T T1w fmriprep_dct 0
-ipython prf/post_fit/pycortex_maps.py sub-01 pRF7T T1w fmriprep_dct_pca 0
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
@@ -124,7 +122,7 @@ else: deriv_mat = nb.load(deriv_fn).get_fdata()
 rsq_data = deriv_mat[...,rsq_idx]
 alpha = rsq_data
 param_rsq = {'data': rsq_data, 'cmap': cmap_uni, 'alpha': rsq_data, 'vmin': 0,'vmax': 1,'cbar': 'discrete', 'cortex_type': cortex_type,
-             'description': 'pRF rsquare', 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False}
+             'description': '{} rsquare'.format(task), 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False}
 maps_names.append('rsq')
 
 # Polar angle
@@ -133,7 +131,7 @@ polar_ang = np.angle(pol_comp_num)
 ang_norm = (polar_ang + np.pi) / (np.pi * 2.0)
 ang_norm = np.fmod(ang_norm + col_offset,1)
 param_polar = { 'data': ang_norm, 'cmap': cmap_polar, 'alpha': alpha, 'vmin': 0, 'vmax': 1, 'cmap_steps': cmap_steps, 'cortex_type': cortex_type,
-                'cbar': 'polar', 'col_offset': col_offset, 'description': 'pRF polar:{cmap_steps:3.0f} steps'.format(cmap_steps=cmap_steps), 
+                'cbar': 'polar', 'col_offset': col_offset, 'description': '{task} polar:{cmap_steps:3.0f} steps'.format(cmap_steps=cmap_steps, task=task), 
                 'curv_brightness': 0.1, 'curv_contrast': 0.25, 'add_roi': save_svg}
 exec('param_polar_{cmap_steps} = param_polar'.format(cmap_steps = int(cmap_steps)))
 exec('maps_names.append("polar_{cmap_steps}")'.format(cmap_steps = int(cmap_steps)))
@@ -141,19 +139,19 @@ exec('maps_names.append("polar_{cmap_steps}")'.format(cmap_steps = int(cmap_step
 # Eccentricity
 ecc_data = deriv_mat[...,ecc_idx]
 param_ecc = {'data': ecc_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0, 'vmax': 15,'cbar': 'ecc', 'cortex_type': cortex_type,
-             'description': 'pRF eccentricity', 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': save_svg}
+             'description': '{} eccentricity'.format(task), 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': save_svg}
 maps_names.append('ecc')
 
 # Size
 size_data = deriv_mat[...,size_idx]
 param_size = {'data': size_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0, 'vmax': 8, 'cbar': 'discrete', 'cortex_type':cortex_type,
-              'description': 'pRF size', 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False}
+              'description': '{} size'.format(task), 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False}
 maps_names.append('size')
 
 # Coverage
 cov_data = deriv_mat[...,cov_idx]
 param_cov = {'data': cov_data, 'cmap': cmap_uni, 'alpha': alpha,'vmin': 0, 'vmax': 1, 'cbar': 'discrete', 'cortex_type':cortex_type,
-            'description': 'pRF coverage', 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False}
+            'description': '{} coverage'.format(task), 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False}
 maps_names.append('cov')
 
 # Draw flatmaps
