@@ -9,7 +9,6 @@
     "preproc":["fmriprep_dct"],
     "registration_type":["T1w"],
     "xfm_names" : ["identity.fmriprep_3T","identity.fmriprep_7T"],
-    "prf_signs": ["pos"],
     "TR": [1.2,1.6],
     "TRs": [208,156],
     "screen_distance": [120,154],
@@ -23,16 +22,12 @@
     "max_ecc_size":[30,20],
     "stim_width": [20.8,14.6],
     "stim_height": [20.8,14.6],
-    "sg_filt_window_length": 211,
-    "sg_filt_polyorder": 3,
-    "sg_filt_deriv": 0,
     "fit_model":"gauss",
     "fit_steps":6,
     "xfm_masks":["cortical", "thick", "thin", "nearest"],
     "cortical_mask": "cortical",
-    "rois_T1w": ["V1","V2","V3","V3AB","LO","VO","hMT+","iIPS","sIPS","iPCS","sPCS","mPCS"],
-    "ecc_th": [0.1,15.0],
-    "size_th": [0.1,15.0],
-    "rsqr_th": [0.1,1],
-    "sample_ratio": 0.33
+    "alpha_range":[0,0.4],
+    "rsqr_th": [0,1],
+    "ecc_th": [0.1,20.0],
+    "size_th": [0.1,20.0]
 }

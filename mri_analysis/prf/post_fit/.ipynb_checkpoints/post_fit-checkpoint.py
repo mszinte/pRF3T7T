@@ -52,8 +52,6 @@ from utils.utils import prf_fit2deriv
 # MRI analysis imports
 # --------------------
 import nibabel as nb
-from sklearn.metrics import r2_score
-
 
 # Define analysis parameters
 # --------------------------

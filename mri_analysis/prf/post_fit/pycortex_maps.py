@@ -118,9 +118,24 @@ deriv_fn = "{}/{}_task-{}_space-{}_{}_avg_prf-deriv{}".format(deriv_dir, subject
 if regist_type == 'fsLR_den-170k': deriv_mat = np.load(deriv_fn)
 else: deriv_mat = nb.load(deriv_fn).get_fdata()
 
+# Threshold data
+deriv_mat_th = deriv_mat
+amp_down =  deriv_mat_th[...,amp_idx] > 0
+rsqr_th_down = deriv_mat_th[...,rsq_idx] >= analysis_info['rsqr_th'][0]
+rsqr_th_up = deriv_mat_th[...,rsq_idx] <= analysis_info['rsqr_th'][1]
+size_th_down = deriv_mat_th[...,size_idx] >= analysis_info['size_th'][0]
+size_th_up = deriv_mat_th[...,size_idx] <= analysis_info['size_th'][1]
+ecc_th_down = deriv_mat_th[...,ecc_idx] >= analysis_info['ecc_th'][0]
+ecc_th_up = deriv_mat_th[...,ecc_idx] <= analysis_info['ecc_th'][1]
+all_th = np.array((amp_down,rsqr_th_down,rsqr_th_up,size_th_down,size_th_up,ecc_th_down,ecc_th_up)) 
+deriv_mat[np.logical_and.reduce(all_th)==False,rsq_idx]=0
+
 # R-square
 rsq_data = deriv_mat[...,rsq_idx]
-alpha = rsq_data
+alpha_range = analysis_info["alpha_range"]
+alpha = (rsq_data - alpha_range[0])/(alpha_range[1]-alpha_range[0])
+alpha[alpha>1]=1
+
 param_rsq = {'data': rsq_data, 'cmap': cmap_uni, 'alpha': rsq_data, 'vmin': 0,'vmax': 1,'cbar': 'discrete', 'cortex_type': cortex_type,
              'description': '{} rsquare'.format(task), 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False}
 maps_names.append('rsq')
@@ -144,7 +159,7 @@ maps_names.append('ecc')
 
 # Size
 size_data = deriv_mat[...,size_idx]
-param_size = {'data': size_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0, 'vmax': 8, 'cbar': 'discrete', 'cortex_type':cortex_type,
+param_size = {'data': size_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0, 'vmax': 15, 'cbar': 'discrete', 'cortex_type':cortex_type,
               'description': '{} size'.format(task), 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False}
 maps_names.append('size')
 
