@@ -22,10 +22,10 @@ To run:
 >> cd /home/mszinte/projects/pRF3T7T/mri_analysis/
 2. run python command
 python preproc/pybest_sbatch.py [main directory] [project name] [subject num] 
-                                [registration type] [hour proc.] ] [email account]
+                                [registration type] [hour proc.] [pca]] [email account]
 -----------------------------------------------------------------------------------------
 Exemple:
-python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 T1w 20 0 martin.szinte
+python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 T1w 2 0 martin.szinte
 python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 MNI152NLin2009cAsym-res-1 20 1 martin.szinte
 python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 fsLR_den-170k 20 1 martin.szinte
 -----------------------------------------------------------------------------------------
@@ -50,14 +50,13 @@ sub_num = subject[-2:]
 regist_type =sys.argv[4]
 hour_proc = int(sys.argv[5])
 noise_proc = int(sys.argv[6])
-if noise_proc == 0: noise_proc_txt = ' --skip-noiseproc'
-elif noise_proc == 1: noise_proc_txt = ''
+if noise_proc == 0: noise_proc_txt = ' --skip-noiseproc';nb_procs = 8
+elif noise_proc == 1: noise_proc_txt = '';nb_procs = 32
 email_account = sys.argv[7]
 
 # Define cluster/server specific parameters
 cluster_name  = 'skylake'
 proj_name = 'b161'
-nb_procs = 32
 memory_val = 48
 log_dir = opj(main_dir,project_dir,'deriv_data','pybest','log_outputs')
 if regist_type == 'fsLR_den-170k':

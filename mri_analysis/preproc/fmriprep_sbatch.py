@@ -15,7 +15,8 @@ sys.argv[6]: use of aroma (1) or not (0)
 sys.argv[7]: use Use fieldmap-free distortion correction
 sys.argv[8]: skip BIDS validation (1) or not (0)
 sys.argv[9]: save cifti hcp format data with 170k vertices
-sys.argv[10]: email account
+sys.argv[10]: dof number (e.g. 12)
+sys.argv[11]: email account
 -----------------------------------------------------------------------------------------
 Output(s):
 preprocessed files
@@ -26,11 +27,11 @@ To run:
 2. run python command
 python preproc/fmriprep_sbatch.py [main directory] [project name] [subject num]
                                   [hour proc.] [anat only] [aroma] [fmapfree] 
-                                  [skip bids validation] [cifti] [email account]
+                                  [skip bids validation] [cifti] [dof] [email account]
 -----------------------------------------------------------------------------------------
 Exemple:
-python preproc/fmriprep_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 20 1 0 0 0 1 martin.szinte
-python preproc/fmriprep_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 20 0 0 0 0 1 martin.szinte
+python preproc/fmriprep_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 20 1 0 0 0 1 12 martin.szinte
+python preproc/fmriprep_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 20 0 0 0 0 1 12 martin.szinte
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
@@ -56,7 +57,8 @@ aroma = int(sys.argv[6])
 fmapfree = int(sys.argv[7])
 skip_bids_val = int(sys.argv[8])
 hcp_cifti_val = int(sys.argv[9])
-email_account = sys.argv[10]
+dof = int(sys.argv[10])
+email_account = sys.argv[11]
 
 # Define cluster/server specific parameters
 cluster_name  = 'skylake'
@@ -102,19 +104,11 @@ slurm_cmd = """\
            memory_val=memory_val, log_dir=log_dir, email_account=email_account, tf_export=tf_export)
 
 # define singularity cmd
-singularity_cmd = "singularity run --cleanenv{tf_bind} -B {main_dir}:/work_dir {simg} --fs-license-file /work_dir/freesurfer/license.txt /work_dir/{project_dir}/bids_data/ /work_dir/{project_dir}/deriv_data/fmriprep/ participant --participant-label {sub_num} -w /work_dir/{project_dir}/temp_data/ --bold2t1w-dof 12 --ignore sbref --output-spaces T1w fsnative fsaverage MNI152NLin2009cAsym:res-1{hcp_cifti} --low-mem --mem-mb 64000 --nthreads {nb_procs:.0f}{anat_only}{use_aroma}{use_fmapfree}{use_skip_bids_val}".format(
-                                tf_bind = tf_bind,
-                                main_dir = main_dir,
-                                project_dir = project_dir,
-                                simg = singularity_dir,
-                                sub_num = sub_num,
-                                nb_procs = nb_procs,
-                                anat_only = anat_only,
-                                use_aroma = use_aroma,
-                                use_fmapfree = use_fmapfree,
-                                use_skip_bids_val = use_skip_bids_val,
-                                hcp_cifti = hcp_cifti)
-
+singularity_cmd = "singularity run --cleanenv{tf_bind} -B {main_dir}:/work_dir {simg} --fs-license-file /work_dir/freesurfer/license.txt /work_dir/{project_dir}/bids_data/ /work_dir/{project_dir}/deriv_data/fmriprep/ participant --participant-label {sub_num} -w /work_dir/{project_dir}/temp_data/ --bold2t1w-dof {dof} --ignore sbref --output-spaces T1w fsnative fsaverage MNI152NLin2009cAsym:res-1{hcp_cifti} --low-mem --mem-mb 64000 --nthreads {nb_procs:.0f}{anat_only}{use_aroma}{use_fmapfree}{use_skip_bids_val}".format(tf_bind=tf_bind, main_dir=main_dir, project_dir=project_dir,
+                                                                              simg=singularity_dir, sub_num=sub_num, nb_procs=nb_procs,
+                                                                              anat_only=anat_only, use_aroma=use_aroma, use_fmapfree=use_fmapfree,
+                                                                              use_skip_bids_val=use_skip_bids_val, hcp_cifti=hcp_cifti, 
+                                                                              dof=dof)
 # create sh folder and file
 sh_dir = "{main_dir}/{project_dir}/deriv_data/fmriprep/jobs/sub-{sub_num}_fmriprep{anat_only_end}.sh".format(main_dir = main_dir, sub_num = sub_num,project_dir = project_dir,anat_only_end = anat_only_end)
 
@@ -124,10 +118,10 @@ try:
 except:
     pass
 of = open(sh_dir, 'w')
-of.write("{slurm_cmd}{singularity_cmd}".format(slurm_cmd = slurm_cmd,singularity_cmd = singularity_cmd))
+of.write("{slurm_cmd}{singularity_cmd}".format(slurm_cmd=slurm_cmd,singularity_cmd=singularity_cmd))
 of.close()
 
 # Submit jobs
-print("Submitting {sh_dir} to queue".format(sh_dir = sh_dir))
+print("Submitting {sh_dir} to queue".format(sh_dir=sh_dir))
 os.chdir(log_dir)
-os.system("sbatch {sh_dir}".format(sh_dir = sh_dir))
+os.system("sbatch {sh_dir}".format(sh_dir=sh_dir))

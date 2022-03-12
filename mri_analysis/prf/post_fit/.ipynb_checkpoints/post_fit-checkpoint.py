@@ -20,7 +20,7 @@ To run:
 >> python prf/post_fit/post_fit.py [subject] [task] [reg] [preproc] [cifti-mode]
 -----------------------------------------------------------------------------------------
 Exemple:
-cd /home/mszinte/projects/PredictEye/mri_analysis/
+cd /home/mszinte/projects/pRF3T7T/mri_analysis/
 python prf/post_fit/post_fit.py sub-01 pRF3T T1w fmriprep_dct
 python prf/post_fit/post_fit.py sub-01 pRF3T T1w fmriprep_dct_pca
 python prf/post_fit/post_fit.py sub-01 pRF7T T1w fmriprep_dct

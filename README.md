@@ -4,7 +4,10 @@ With :    Penelope Tilsley, Jan-Patrick Stillmann<br>
 Version:  1.0<br>
 
 # Version description
-Comparison of 3 and 7T pRF experiment for sub-01
+Comparison of 3 and 7T pRF experiment:<br>
+__sub-01:__ 5xpRF3T, 2xpRF7T on 3T anatomy<br>
+__sub-02:__ 5xpRF3T, 2xpRF7T on 7T anatomy<br>
+__sub-03:__ 2xpRF3T, 2xpRF7T on 3T anatomy<br>
 
 # Task
 1. pRFexp: population receptive field task adapted to 3T sequence ([repo](https://invibe.nohost.me/gitlab/mszinte/pRFexp))
@@ -24,7 +27,8 @@ Comparison of 3 and 7T pRF experiment for sub-01
 
 ## Pre-processing
 1. run mriqc on mesocentre using _mri_analysis/preproc/mriqc_sbatch.py_
-1. run fmriprep on mesocentre using _mri_analysis/preproc/fmriprep_sbatch.py_
+2. run fmriprep on mesocentre using _mri_analysis/preproc/fmriprep_sbatch.py_ (Note: for sub-02 I used 6 dof instead of 12)
+3. [sub-02] cut the brain using _preproc/.py_ and flatten it using _preproc/.py_
 3. run pybest (modified repo to save niftis) to high pass filter and denoised the data with _/preproc/pybest_sbatch.py_
 4. copy files in pp_data and average task runs (including leave-one-out procedure) together with _preproc/preproc_end.py_
 5. Import in pycortex with _preproc/pycortex_import.py_
@@ -32,11 +36,7 @@ Comparison of 3 and 7T pRF experiment for sub-01
 ## Post-processing
 
 ### Data saving structure
-
-__sub-01:__ 5xpRF3T, 2xpRF7T on 3T anatomy<br>
-__sub-02:__ 5xpRF3T, 2xpRF7T on 7T anatomy<br>
-__sub-01:__ 2xpRF3T, 2xpRF7T on 3T anatomy<br>
-
+03 x subjects (sub-01-03)
 01 x preprocessing steps (fmriprep_dct)<br>
 02 x contrasts (pRF3T, pRF7T)<br>
 01 x registration types (T1w)<br>

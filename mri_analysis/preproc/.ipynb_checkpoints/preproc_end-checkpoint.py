@@ -95,7 +95,7 @@ for task_num, task_name in enumerate(analysis_info['task_names']):
 
 
 # Average tasks runs
-for preproc in analysis_info['preproc']:c
+for preproc in analysis_info['preproc']:
     for task_name in analysis_info['task_names']:
         for file_end in file_ends:
             print('avg: '+task_name+' type: '+file_end)
@@ -145,10 +145,13 @@ dest_folder_anat = "{base_dir}/pp_data/{sub}/anat".format(base_dir=base_dir, sub
 try: os.makedirs(dest_folder_anat)
 except: pass
 
+if sub_name == 'sub-02':ses = "ses-02"
+else:ses = "ses-01"
+
 if regist_type == 'T1w':
     for output_file in output_files:
         
-        orig_file = "{orig_fold}/ses-01/anat/{sub}_ses-01_{output_file}.nii.gz".format(orig_fold=orig_folder, sub=sub_name, output_file=output_file)
+        orig_file = "{orig_fold}/{ses}/anat/{sub}_{ses}_{output_file}.nii.gz".format(orig_fold=orig_folder, sub=sub_name, output_file=output_file, ses=ses)
         dest_file = "{dest_fold}/{sub}_{output_file}.nii.gz".format(dest_fold=dest_folder_anat, sub=sub_name, output_file=output_file)
 
         if os.path.isfile(orig_file):
