@@ -22,12 +22,10 @@ To run:
 >> cd /home/mszinte/projects/pRF3T7T/mri_analysis/
 2. run python command
 python preproc/pybest_sbatch.py [main directory] [project name] [subject num] 
-                                [registration type] [hour proc.] [pca]] [email account]
+                                [registration type] [hour proc.] [pca] [email account]
 -----------------------------------------------------------------------------------------
 Exemple:
 python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 T1w 2 0 martin.szinte
-python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 MNI152NLin2009cAsym-res-1 20 1 martin.szinte
-python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 fsLR_den-170k 20 1 martin.szinte
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
