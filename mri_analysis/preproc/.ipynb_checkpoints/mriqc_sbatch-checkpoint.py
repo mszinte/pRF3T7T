@@ -24,6 +24,7 @@ python preproc/mriqc_sbatch.py [main directory] [project name] [subject name]
 -----------------------------------------------------------------------------------------
 Exemple:
 python preproc/mriqc_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 8 5
+python preproc/mriqc_sbatch.py /scratch/mszinte/data pRF3T7T sub-04 8 5
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
@@ -33,9 +34,7 @@ Written by Martin Szinte (martin.szinte@gmail.com)
 import sys
 import os
 import time
-#import ipdb
 opj = os.path.join
-#deb = ipdb.set_trace
 
 # inputs
 singularity_dir = '/scratch/mszinte/softwares/mriqc-0.15.1.simg'
@@ -49,13 +48,13 @@ cluster_name = 'skylake'
 proj_name = 'b161'
 
 # create sh folder and file
-jobs_dir = opj(main_dir,project_dir,'deriv_data','mriqc','jobs') 
-log_dir = opj(main_dir,project_dir,'deriv_data','mriqc','log_outputs')
+jobs_dir = opj(main_dir,project_dir,'derivatives','mriqc','jobs') 
+log_dir = opj(main_dir,project_dir,'derivatives','mriqc','log_outputs')
 try:
-	os.makedirs(jobs_dir)
-	os.makedirs(log_dir)
+    os.makedirs(jobs_dir)
+    os.makedirs(log_dir)
 except:
-	pass
+    pass
 
 slurm_cmd = """\
 #!/bin/bash
@@ -68,25 +67,19 @@ slurm_cmd = """\
 #SBATCH -e {log_dir}/{subject}_mriqc_%N_%j_%a.err
 #SBATCH -o {log_dir}/{subject}_mriqc_%N_%j_%a.out
 #SBATCH -J {subject}_mriqc\n\n""".format(
-                    cluster_name = cluster_name,        proj_name = proj_name,
-                    nb_procs = nb_procs,                log_dir = log_dir,
-                    job_dur = job_dur,                  subject = subject)
-
+                    cluster_name=cluster_name, proj_name=proj_name,
+                    nb_procs=nb_procs, log_dir=log_dir,
+                    job_dur=job_dur, subject=subject)
 
 # define singularity cmd
-singularity_cmd = "singularity run --bind {main_dir}:/work_dir {simg} /work_dir/{project_dir}/bids_data/ /work_dir/{project_dir}/deriv_data/mriqc/ participant --participant_label {sub_num} -w /work_dir/{project_dir}/temp_data/ --verbose-reports --mem_gb 64 -m bold T1w T2w --no-sub".format(
-									main_dir = main_dir,
-									project_dir = project_dir,
-									simg = singularity_dir, 
-									sub_num = sub_num,
-									)
+singularity_cmd = "singularity run --bind {main_dir}:/work_dir {simg} /work_dir/{project_dir}/ /work_dir/{project_dir}/derivatives/mriqc/ participant --participant_label {sub_num} -w /work_dir/temp_data/ --verbose-reports --mem_gb 64 -m bold T1w T2w --no-sub".format(main_dir=main_dir, project_dir=project_dir, simg=singularity_dir, sub_num=sub_num)
 
-sh_dir = "{main_dir}/{project_dir}/deriv_data/mriqc/jobs/sub-{sub_num}_mriqc.sh".format(main_dir = main_dir, project_dir = project_dir, sub_num = sub_num)
+sh_dir = "{main_dir}/{project_dir}/derivatives/mriqc/jobs/sub-{sub_num}_mriqc.sh".format(main_dir=main_dir, project_dir=project_dir, sub_num=sub_num)
 of = open(sh_dir, 'w')
-of.write("{slurm_cmd}{singularity_cmd}".format(slurm_cmd = slurm_cmd,singularity_cmd = singularity_cmd))
+of.write("{slurm_cmd}{singularity_cmd}".format(slurm_cmd=slurm_cmd, singularity_cmd=singularity_cmd))
 of.close()
 
 # Submit jobs
-print("Submitting {sh_dir} to queue".format(sh_dir = sh_dir))
+print("Submitting {sh_dir} to queue".format(sh_dir=sh_dir))
 os.chdir(log_dir)
-os.system("sbatch {sh_dir}".format(sh_dir = sh_dir))
+os.system("sbatch {sh_dir}".format(sh_dir=sh_dir))

@@ -8,6 +8,7 @@ Comparison of 3 and 7T pRF experiment:<br>
 __sub-01:__ 5xpRF3T, 2xpRF7T on 3T anatomy<br>
 __sub-02:__ 5xpRF3T, 2xpRF7T on 7T anatomy<br>
 __sub-03:__ 2xpRF3T, 2xpRF7T on 3T anatomy<br>
+__sub-04:__ 2xpRF7T on 7T anatomy<br> 
 
 # Task
 1. pRFexp: population receptive field task adapted to 3T sequence ([repo](https://invibe.nohost.me/gitlab/mszinte/pRFexp))
@@ -24,10 +25,11 @@ __sub-03:__ 2xpRF3T, 2xpRF7T on 3T anatomy<br>
 6. check BIDS validity
 7. sub-03 is same as sub-01 with 2 first runs of pRF3T
 8. sub-02: create T1w from _preproc/mp2rage_genUniDen.py_
+9. sub-04: convert and arrange raw data using _preproc/rename_files.ipynb_
 
 ## Pre-processing
 1. run mriqc on mesocentre using _mri_analysis/preproc/mriqc_sbatch.py_
-2. run fmriprep on mesocentre using _mri_analysis/preproc/fmriprep_sbatch.py_ (Note: for sub-02 I used 6 dof instead of 12)
+2. run fmriprep on mesocentre using _mri_analysis/preproc/fmriprep_sbatch.py_ (Note: for sub-02/sub-04 I used 6 dof instead of 12)
 3. [sub-02] cut the brain using _preproc/.py_ and flatten it using _preproc/.py_
 3. run pybest (modified repo to save niftis) to high pass filter and denoised the data with _/preproc/pybest_sbatch.py_
 4. copy files in pp_data and average task runs (including leave-one-out procedure) together with _preproc/preproc_end.py_
