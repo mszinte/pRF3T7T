@@ -67,7 +67,7 @@ base_dir = analysis_info['base_dir']
 
 # Copy files in pp_data folder
 # ----------------------------
-dest_folder1 = "{base_dir}/pp_data/{sub}/func/fmriprep_dct".format(base_dir=base_dir, sub=sub_name)
+dest_folder1 = "{base_dir}/derivatives/pp_data/{sub}/func/fmriprep_dct".format(base_dir=base_dir, sub=sub_name)
 try: os.makedirs(dest_folder1)
 except: pass
 
@@ -77,8 +77,10 @@ elif sub_name == 'sub-02':
     task_runs = [5,2]
 elif sub_name == 'sub-03':
     task_runs = [2,2]
+elif sub_name == 'sub-04':
+    task_runs = [0,2]
 
-orig_folder = "{base_dir}/deriv_data/pybest/{sub}".format(base_dir=base_dir, sub=sub_name)
+orig_folder = "{base_dir}/derivatives/pybest/{sub}".format(base_dir=base_dir, sub=sub_name)
 
 for task_num, task_name in enumerate(analysis_info['task_names']):
     for task_run in np.arange(0,task_runs[task_num],1):
@@ -100,14 +102,14 @@ for preproc in analysis_info['preproc']:
         for file_end in file_ends:
             print('avg: '+task_name+' type: '+file_end)
 
-            file_list = sorted(glob.glob("{base_dir}/pp_data/{sub}/func/{preproc}/*{task_name}*_space-{reg}_{preproc}{file_end}".format(
+            file_list = sorted(glob.glob("{base_dir}/derivatives/pp_data/{sub}/func/{preproc}/*{task_name}*_space-{reg}_{preproc}{file_end}".format(
                                          base_dir=base_dir, sub=sub_name, preproc=preproc,task_name=task_name, reg=regist_type, file_end=file_end)))
             
 
             if len(file_list):
                 
                 # save
-                new_file = "{base_dir}/pp_data/{sub}/func/{sub}_task-{task_name}_space-{reg}_{preproc}_avg{file_end}".format(
+                new_file = "{base_dir}/derivatives/pp_data/{sub}/func/{sub}_task-{task_name}_space-{reg}_{preproc}_avg{file_end}".format(
                             base_dir=base_dir, sub=sub_name, preproc=preproc, task_name=task_name, reg=regist_type, file_end=file_end)
 
 
@@ -139,9 +141,9 @@ for preproc in analysis_info['preproc']:
                                 
 # Anatomy
 output_files = ['dseg','desc-preproc_T1w','desc-aparcaseg_dseg','desc-aseg_dseg','desc-brain_mask']
-orig_folder = "{base_dir}/deriv_data/fmriprep/fmriprep/{sub}".format(base_dir=base_dir, sub=sub_name)
+orig_folder = "{base_dir}/derivatives/fmriprep/fmriprep/{sub}".format(base_dir=base_dir, sub=sub_name)
 
-dest_folder_anat = "{base_dir}/pp_data/{sub}/anat".format(base_dir=base_dir, sub=sub_name)
+dest_folder_anat = "{base_dir}/derivatives/pp_data/{sub}/anat".format(base_dir=base_dir, sub=sub_name)
 try: os.makedirs(dest_folder_anat)
 except: pass
 

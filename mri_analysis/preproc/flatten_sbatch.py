@@ -52,8 +52,8 @@ cluster_name  = 'skylake'
 proj_name = 'b161'
 nb_procs = 32
 memory_val = 48
-log_dir = opj(main_dir,project_dir,'deriv_data','flatten','log_outputs')
-freesurfer_dir = "{main_dir}/{project_dir}/deriv_data/fmriprep/freesurfer/".format(main_dir = main_dir,project_dir = project_dir)
+log_dir = opj(main_dir,project_dir,'derivatives','flatten','log_outputs')
+freesurfer_dir = "{main_dir}/{project_dir}/derivatives/fmriprep/freesurfer/".format(main_dir = main_dir,project_dir = project_dir)
 
 # define SLURM cmd
 slurm_cmd = """\
@@ -77,11 +77,11 @@ cd '{freesurfer_dir}{subject}/surf/'\n\n""".format(	proj_name = proj_name, nb_pr
 flatten_cmd = "mris_flatten {hemi}h.full.patch.3d {hemi}h.full.flat.patch.3d".format(hemi = hemi)
 
 # create sh folder and file
-sh_dir = "{main_dir}/{project_dir}/deriv_data/flatten/jobs/{subject}_{hemi}h_flatten.sh".format(main_dir = main_dir, subject = subject,project_dir = project_dir,hemi = hemi)
+sh_dir = "{main_dir}/{project_dir}/derivatives/flatten/jobs/{subject}_{hemi}h_flatten.sh".format(main_dir = main_dir, subject = subject,project_dir = project_dir,hemi = hemi)
 
 try:
-	os.makedirs(opj(main_dir,project_dir,'deriv_data','flatten','jobs'))
-	os.makedirs(opj(main_dir,project_dir,'deriv_data','flatten','log_outputs'))
+	os.makedirs(opj(main_dir,project_dir,'derivatives','flatten','jobs'))
+	os.makedirs(opj(main_dir,project_dir,'derivatives','flatten','log_outputs'))
 except:
 	pass
 

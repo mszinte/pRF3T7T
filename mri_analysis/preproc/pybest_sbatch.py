@@ -26,6 +26,7 @@ python preproc/pybest_sbatch.py [main directory] [project name] [subject num]
 -----------------------------------------------------------------------------------------
 Exemple:
 python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 T1w 2 0 martin.szinte
+python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-04 T1w 2 0 martin.szinte
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
@@ -56,9 +57,9 @@ email_account = sys.argv[7]
 cluster_name  = 'skylake'
 proj_name = 'b161'
 memory_val = 48
-log_dir = opj(main_dir,project_dir,'deriv_data','pybest','log_outputs')
+log_dir = opj(main_dir,project_dir,'derivatives','pybest','log_outputs')
 if regist_type == 'fsLR_den-170k':
-    cifti_file = opj(main_dir,project_dir,'deriv_data','pybest','indices','cifti_indices.hdf5')
+    cifti_file = opj(main_dir,project_dir,'derivatives','pybest','indices','cifti_indices.hdf5')
     cifti_cmd = "'{cifti_file}' 'Left_indices' 'Right_indices' 'Subcortex_indices' --iscifti 'y' --mode 'all'".format(cifti_file=cifti_file)
 else:
     cifti_cmd = ''
@@ -83,20 +84,20 @@ slurm_cmd = """\
 
 
 # define pybest cmd
-fmriprep_dir = "{main_dir}/{project_dir}/deriv_data/fmriprep/fmriprep/".format(main_dir=main_dir,project_dir=project_dir)
-bids_dir = "{main_dir}/{project_dir}/bids_data/".format(main_dir=main_dir, project_dir=project_dir)
-pybest_dir = "{main_dir}/{project_dir}/deriv_data/pybest/".format(main_dir=main_dir,project_dir=project_dir)
+fmriprep_dir = "{main_dir}/{project_dir}/derivatives/fmriprep/fmriprep/".format(main_dir=main_dir,project_dir=project_dir)
+bids_dir = "{main_dir}/{project_dir}/".format(main_dir=main_dir, project_dir=project_dir)
+pybest_dir = "{main_dir}/{project_dir}/derivatives/pybest/".format(main_dir=main_dir,project_dir=project_dir)
 
 pybest_cmd = "pybest {fmriprep_dir} {bids_dir} {cifti_cmd} --out-dir {pybest_dir} --subject '{sub_num}' --space '{regist_type}' --high-pass-type 'dct' --noise-source fmriprep --skip-signalproc --verbose 'DEBUG' --save-all{noise_proc}".format(
                         fmriprep_dir=fmriprep_dir,bids_dir=bids_dir, cifti_cmd=cifti_cmd, pybest_dir=pybest_dir, sub_num=sub_num, regist_type=regist_type, noise_proc=noise_proc_txt)
 
 # create sh folder and file
-sh_dir = "{main_dir}/{project_dir}/deriv_data/pybest/jobs/{subject}_pybest_{regist_type}.sh".format(main_dir=main_dir, subject=subject,project_dir=project_dir,regist_type=regist_type)
+sh_dir = "{main_dir}/{project_dir}/derivatives/pybest/jobs/{subject}_pybest_{regist_type}.sh".format(main_dir=main_dir, subject=subject,project_dir=project_dir,regist_type=regist_type)
 
 
 try:
-    os.makedirs(opj(main_dir,project_dir,'deriv_data','pybest','jobs'))
-    os.makedirs(opj(main_dir,project_dir,'deriv_data','pybest','log_outputs'))
+    os.makedirs(opj(main_dir,project_dir,'derivatives','pybest','jobs'))
+    os.makedirs(opj(main_dir,project_dir,'derivatives','pybest','log_outputs'))
 except:
     pass
 

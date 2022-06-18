@@ -79,7 +79,7 @@ with open('settings.json') as f:
 base_dir = analysis_info['base_dir']
 
 # Get task specific settings
-visual_dm_file = scipy.io.loadmat('{}/pp_data/visual_dm/{}_vd.mat'.format(base_dir,task))
+visual_dm_file = scipy.io.loadmat('{}/derivatives/pp_data/visual_dm/{}_vd.mat'.format(base_dir,task))
 visual_dm = visual_dm_file['stim'].transpose([1,0,2])
 
 # Load data

@@ -29,7 +29,7 @@
 
 # rsync to desktop (faster processing)
 echo "\n>> Copying the files to the desktop"
-rsync -azuv  --progress $4@login.mesocentre.univ-amu.fr:$1/deriv_data/fmriprep/freesurfer/$2 ~/Desktop/temp_data/
+rsync -azuv  --progress $4@login.mesocentre.univ-amu.fr:$1/derivatives/fmriprep/freesurfer/$2 ~/Desktop/temp_data/
 
 # Check + edit pial surface
 echo "\n>> Proceed to the cortex cuts : "
@@ -42,7 +42,7 @@ while true; do
 	read -p "Do you wish to transfer the patch to the mesocentre? (y/n) " yn
 	case $yn in
 		[Yy]* ) echo "\n>> Uploading the $3 patch to mesocentre";\
-				rsync -avuz ~/Desktop/temp_data/$2/surf/$3.full.patch.3d $4@login.mesocentre.univ-amu.fr:$1/deriv_data/fmriprep/freesurfer/$2/surf/
+				rsync -avuz ~/Desktop/temp_data/$2/surf/$3.full.patch.3d $4@login.mesocentre.univ-amu.fr:$1/derivatives/fmriprep/freesurfer/$2/surf/
         break;;
 		[Nn]* ) echo "\n>> No uploading of the brainmasks to mesocentre";\
 				exit;;

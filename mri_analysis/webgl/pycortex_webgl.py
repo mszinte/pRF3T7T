@@ -22,6 +22,7 @@ To run:
 Exemple: on mesocentre
 cd ~/projects/pRF3T7T/mri_analysis/
 python webgl/pycortex_webgl.py sub-01 fmriprep_dct T1w 1 1
+python webgl/pycortex_webgl.py sub-04 fmriprep_dct T1w 1 1
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
@@ -67,31 +68,36 @@ with open('settings.json') as f:
     
 # create folder
 base_dir = analysis_info["base_dir"]
-datasets_dir = '{}/pp_data/{}/prf/pycortex/datasets'.format(base_dir, subject)
+datasets_dir = '{}/derivatives/pp_data/{}/prf/pycortex/datasets'.format(base_dir, subject)
 
 # Set pycortex db and colormaps
 # -----------------------------
 set_pycortex_config_file(base_dir)
 
-webgl_dir = '{}/webgl/{}_{}/'.format(base_dir, subject, preproc)
+webgl_dir = '{}/derivatives/webgl/{}_{}/'.format(base_dir, subject, preproc)
 try: os.makedirs(webgl_dir)
 except: pass
 
 # Load datasets
-prf3T_dataset_file = "{}/{}_task-pRF3T_space-{}_{}.hdf".format(datasets_dir, subject, regist_type, preproc)
-prf3T_dataset = cortex.load(prf3T_dataset_file)
+if subject != 'sub-04':
+    prf3T_dataset_file = "{}/{}_task-pRF3T_space-{}_{}.hdf".format(datasets_dir, subject, regist_type, preproc)
+    prf3T_dataset = cortex.load(prf3T_dataset_file)
 
 prf7T_dataset_file = "{}/{}_task-pRF7T_space-{}_{}.hdf".format(datasets_dir, subject, regist_type, preproc)
 prf7T_dataset = cortex.load(prf7T_dataset_file)
 
 # Put them together
-new_dataset = cortex.Dataset(pRF3T = prf3T_dataset, pRF7T = prf7T_dataset)
+if subject == 'sub-04':
+    new_dataset = cortex.Dataset(pRF7T = prf7T_dataset)
+else:
+    new_dataset = cortex.Dataset(pRF3T = prf3T_dataset, pRF7T = prf7T_dataset)
+    
 cortex.webgl.make_static(outpath=webgl_dir, data=new_dataset, recache=recache)
 
 # Send to webapp
 # --------------
 if webapp == True:
 
-    webapp_dir = '{}{}_{}/'.format(analysis_info['webapp_dir'],subject,preproc)
-    os.system('rsync -avuz --progress {local_dir} {webapp_dir}'.format(local_dir=webgl_dir, webapp_dir=webapp_dir))
-    print('go to : https://invibe.nohost.me/prf3t7t/{}_{}'.format(subject,preproc))
+    webapp_dir = '{}{}_{}/'.format(analysis_info['webapp_dir'], subject, preproc)
+    print('rsync -avuz --progress {local_dir} {webapp_dir}'.format(local_dir=webgl_dir, webapp_dir=webapp_dir))
+    print('go to : https://invibe.nohost.me/prf3t7t/{}_{}'.format(subject, preproc))

@@ -22,9 +22,8 @@ To run:
 Exemple:
 cd /home/mszinte/projects/pRF3T7T/mri_analysis/
 python prf/post_fit/post_fit.py sub-01 pRF3T T1w fmriprep_dct
-python prf/post_fit/post_fit.py sub-01 pRF3T T1w fmriprep_dct_pca
 python prf/post_fit/post_fit.py sub-01 pRF7T T1w fmriprep_dct
-python prf/post_fit/post_fit.py sub-01 pRF7T T1w fmriprep_dct_pca
+python prf/post_fit/post_fit.py sub-04 pRF7T T1w fmriprep_dct
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
@@ -81,9 +80,9 @@ stim_width = analysis_info['stim_width'][task_num]
 stim_height = analysis_info['stim_height'][task_num]
 
 # Create job and log output folders
-fit_fn = "{base_dir}/pp_data/{sub}/prf/fit/{sub}_task-{task}_space-{reg}_{preproc}_avg_prf-fit{file_ext}".format(
+fit_fn = "{base_dir}/derivatives/pp_data/{sub}/prf/fit/{sub}_task-{task}_space-{reg}_{preproc}_avg_prf-fit{file_ext}".format(
                 base_dir=base_dir, sub=subject, reg=regist_type, preproc=preproc, file_ext=file_ext, task=task)
-deriv_fn = "{base_dir}/pp_data/{sub}/prf/fit/{sub}_task-{task}_space-{reg}_{preproc}_avg_prf-deriv{file_ext}".format(
+deriv_fn = "{base_dir}/derivatives/pp_data/{sub}/prf/fit/{sub}_task-{task}_space-{reg}_{preproc}_avg_prf-deriv{file_ext}".format(
                 base_dir=base_dir, sub=subject, reg=regist_type, preproc=preproc, file_ext=file_ext, task=task)
 
 if os.path.isfile(fit_fn) == False:

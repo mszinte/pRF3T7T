@@ -8,7 +8,8 @@ Comparison of 3 and 7T pRF experiment:<br>
 __sub-01:__ 5xpRF3T, 2xpRF7T on 3T anatomy<br>
 __sub-02:__ 5xpRF3T, 2xpRF7T on 7T anatomy<br>
 __sub-03:__ 2xpRF3T, 2xpRF7T on 3T anatomy<br>
-__sub-04:__ 2xpRF7T on 7T anatomy<br> 
+__sub-04:__ 2xpRF7T on 7T anatomy with fieldmap/magnitude fmap files<br> 
+__sub-05:__ 2xpRF7T on 7T anatomy without fieldmap/magnitude fmap files<br> 
 
 # Task
 1. pRFexp: population receptive field task adapted to 3T sequence ([repo](https://invibe.nohost.me/gitlab/mszinte/pRFexp))
@@ -30,7 +31,7 @@ __sub-04:__ 2xpRF7T on 7T anatomy<br>
 ## Pre-processing
 1. run mriqc on mesocentre using _mri_analysis/preproc/mriqc_sbatch.py_
 2. run fmriprep on mesocentre using _mri_analysis/preproc/fmriprep_sbatch.py_ (Note: for sub-02/sub-04 I used 6 dof instead of 12)
-3. [sub-02] cut the brain using _preproc/.py_ and flatten it using _preproc/.py_
+3. [sub-02] [sub-04] cut the brain using _preproc/cortex_cuts.sh_ and flatten it using _preproc/flatten_sbatch.py_
 3. run pybest (modified repo to save niftis) to high pass filter and denoised the data with _/preproc/pybest_sbatch.py_
 4. copy files in pp_data and average task runs (including leave-one-out procedure) together with _preproc/preproc_end.py_
 5. Import in pycortex with _preproc/pycortex_import.py_
@@ -38,7 +39,7 @@ __sub-04:__ 2xpRF7T on 7T anatomy<br>
 ## Post-processing
 
 ### Data saving structure
-03 x subjects (sub-01-03)
+04 x subjects
 01 x preprocessing steps (fmriprep_dct)<br>
 02 x contrasts (pRF3T, pRF7T)<br>
 01 x registration types (T1w)<br>

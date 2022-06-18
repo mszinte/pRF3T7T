@@ -25,6 +25,7 @@ Exemple:
 cd ~/disks/meso_H/projects/pRF3T7T/mri_analysis/
 ipython prf/post_fit/pycortex_maps.py sub-01 pRF3T T1w fmriprep_dct 0
 ipython prf/post_fit/pycortex_maps.py sub-01 pRF7T T1w fmriprep_dct 0
+ipython prf/post_fit/pycortex_maps.py sub-04 pRF7T T1w fmriprep_dct 0
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
@@ -87,7 +88,7 @@ with open('settings.json') as f:
 # -------------
 xfm_name = analysis_info["xfm_names"][task_num]
 base_dir = analysis_info["base_dir_local"]
-deriv_dir = "{}/pp_data/{}/prf/fit".format(base_dir,subject)
+deriv_dir = "{}/derivatives/pp_data/{}/prf/fit".format(base_dir,subject)
 
 # Set pycortex db and colormaps
 # -----------------------------
@@ -104,8 +105,8 @@ cmap_steps = 255
 
 print('save flatmaps')
 maps_names = []
-flatmaps_dir = '{}/pp_data/{}/prf/pycortex/flatmaps'.format(base_dir, subject)
-datasets_dir = '{}/pp_data/{}/prf/pycortex/datasets'.format(base_dir, subject)
+flatmaps_dir = '{}/derivatives/pp_data/{}/prf/pycortex/flatmaps'.format(base_dir, subject)
+datasets_dir = '{}/derivatives/pp_data/{}/prf/pycortex/datasets'.format(base_dir, subject)
 
 try: os.makedirs(flatmaps_dir); 
 except: pass

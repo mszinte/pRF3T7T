@@ -14,6 +14,7 @@ None
 To run:
 cd /home/mszinte/projects/pRF3T7T/mri_analysis/
 python preproc/pycortex_import.py sub-01
+python preproc/pycortex_import.py sub-04
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
@@ -59,12 +60,15 @@ base_dir = analysis_info['base_dir']
 
 # Define folder
 # -------------
-fmriprep_dir = "{base_dir}/deriv_data/fmriprep/".format(base_dir = base_dir)
-fs_dir = "{base_dir}/deriv_data/fmriprep/freesurfer/".format(base_dir = base_dir)
-temp_dir = "{base_dir}/temp_data/{subject}_rand_ds/".format(base_dir = base_dir, subject = subject)
+fmriprep_dir = "{base_dir}/derivatives/fmriprep/".format(base_dir = base_dir)
+fs_dir = "{base_dir}/derivatives/fmriprep/freesurfer/".format(base_dir = base_dir)
+temp_dir = "{base_dir}/derivatives/temp_data/{subject}_rand_ds/".format(base_dir = base_dir, subject = subject)
 xfm_names = analysis_info['xfm_names']
-cortex_dir = "{base_dir}/pp_data/cortex/db/{subject}".format(base_dir = base_dir, subject = subject)
+cortex_dir = "{base_dir}/derivatives/pp_data/cortex/db/{subject}".format(base_dir = base_dir, subject = subject)
 task_names = analysis_info['task_names']
+if subject == 'sub-04':
+    task_names = [task_names[1]]
+    xfm_names = [xfm_names[1]]
 
 # Set pycortex db and colormaps
 # -----------------------------
@@ -73,18 +77,21 @@ set_pycortex_config_file(base_dir)
 # Add participant to pycortex db
 # ------------------------------
 print('import subject in pycortex')
-cortex.freesurfer.import_subj(fs_subject = subject, cx_subject = subject, freesurfer_subject_dir = fs_dir, whitematter_surf = 'smoothwm')
+cortex.freesurfer.import_subj(fs_subject=subject, 
+                              cx_subject=subject, 
+                              freesurfer_subject_dir=fs_dir, 
+                              whitematter_surf='smoothwm')
 
 # Add participant flat maps
 # -------------------------
 print('import subject flatmaps')
-try: cortex.freesurfer.import_flat(fs_subject = subject, cx_subject = subject, freesurfer_subject_dir = fs_dir, patch = 'full', auto_overwrite=True)
+try: cortex.freesurfer.import_flat(fs_subject=subject, cx_subject=subject, freesurfer_subject_dir=fs_dir, patch='full', auto_overwrite=True)
 except: pass
 
 
 for xfm_num, xfm_name in enumerate(xfm_names):
     
-    file_list = sorted(glob.glob("{base_dir}/pp_data/{sub}/func/*{task_name}*.nii.gz".format(base_dir = base_dir, sub = subject, task_name = task_names[xfm_num])))
+    file_list = sorted(glob.glob("{base_dir}/derivatives/pp_data/{sub}/func/*{task_name}*.nii.gz".format(base_dir = base_dir, sub = subject, task_name = task_names[xfm_num])))
 
     # Add transform to pycortex db
     # ----------------------------
@@ -110,7 +117,7 @@ for xfm_num, xfm_name in enumerate(xfm_names):
     # ------------------------------------
     print('Create overlay: xfm_name: {}'.format(xfm_name))
     
-    file_list = sorted(glob.glob("{base_dir}/pp_data/{sub}/func/*{task_name}*.nii.gz".format(base_dir = base_dir, sub = subject, task_name = task_names[xfm_num])))
+    file_list = sorted(glob.glob("{base_dir}/derivatives/pp_data/{sub}/func/*{task_name}*.nii.gz".format(base_dir = base_dir, sub = subject, task_name = task_names[xfm_num])))
     ref = nb.load(file_list[0])
     
     print('create subject pycortex overlays to check')
