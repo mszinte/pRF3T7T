@@ -79,6 +79,8 @@ elif sub_name == 'sub-03':
     task_runs = [2,2]
 elif sub_name == 'sub-04':
     task_runs = [0,2]
+elif sub_name == 'sub-05':
+    task_runs = [0,2]
 
 orig_folder = "{base_dir}/derivatives/pybest/{sub}".format(base_dir=base_dir, sub=sub_name)
 

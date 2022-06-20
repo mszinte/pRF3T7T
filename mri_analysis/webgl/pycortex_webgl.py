@@ -79,15 +79,23 @@ try: os.makedirs(webgl_dir)
 except: pass
 
 # Load datasets
-if subject != 'sub-04':
+if subject == 'sub-04':
+    prf7T_dataset_file = "{}/{}_task-pRF7T_space-{}_{}.hdf".format(datasets_dir, subject, regist_type, preproc)
+    prf7T_dataset = cortex.load(prf7T_dataset_file)
+elif subject == 'sub-05':
+    prf7T_dataset_file = "{}/{}_task-pRF7T_space-{}_{}.hdf".format(datasets_dir, subject, regist_type, preproc)
+    prf7T_dataset = cortex.load(prf7T_dataset_file)
+else:
     prf3T_dataset_file = "{}/{}_task-pRF3T_space-{}_{}.hdf".format(datasets_dir, subject, regist_type, preproc)
     prf3T_dataset = cortex.load(prf3T_dataset_file)
 
-prf7T_dataset_file = "{}/{}_task-pRF7T_space-{}_{}.hdf".format(datasets_dir, subject, regist_type, preproc)
-prf7T_dataset = cortex.load(prf7T_dataset_file)
+    prf7T_dataset_file = "{}/{}_task-pRF7T_space-{}_{}.hdf".format(datasets_dir, subject, regist_type, preproc)
+    prf7T_dataset = cortex.load(prf7T_dataset_file)
 
 # Put them together
 if subject == 'sub-04':
+    new_dataset = cortex.Dataset(pRF7T = prf7T_dataset)
+elif subject == 'sub-05':
     new_dataset = cortex.Dataset(pRF7T = prf7T_dataset)
 else:
     new_dataset = cortex.Dataset(pRF3T = prf3T_dataset, pRF7T = prf7T_dataset)
@@ -99,5 +107,5 @@ cortex.webgl.make_static(outpath=webgl_dir, data=new_dataset, recache=recache)
 if webapp == True:
 
     webapp_dir = '{}{}_{}/'.format(analysis_info['webapp_dir'], subject, preproc)
-    print('rsync -avuz --progress {local_dir} {webapp_dir}'.format(local_dir=webgl_dir, webapp_dir=webapp_dir))
+    os.system('rsync -avuz --progress {local_dir} {webapp_dir}'.format(local_dir=webgl_dir, webapp_dir=webapp_dir))
     print('go to : https://invibe.nohost.me/prf3t7t/{}_{}'.format(subject, preproc))

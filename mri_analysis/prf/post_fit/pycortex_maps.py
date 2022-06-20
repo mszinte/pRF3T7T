@@ -26,6 +26,7 @@ cd ~/disks/meso_H/projects/pRF3T7T/mri_analysis/
 ipython prf/post_fit/pycortex_maps.py sub-01 pRF3T T1w fmriprep_dct 0
 ipython prf/post_fit/pycortex_maps.py sub-01 pRF7T T1w fmriprep_dct 0
 ipython prf/post_fit/pycortex_maps.py sub-04 pRF7T T1w fmriprep_dct 0
+ipython prf/post_fit/pycortex_maps.py sub-05 pRF7T T1w fmriprep_dct 0
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
@@ -154,13 +155,13 @@ exec('maps_names.append("polar_{cmap_steps}")'.format(cmap_steps = int(cmap_step
 
 # Eccentricity
 ecc_data = deriv_mat[...,ecc_idx]
-param_ecc = {'data': ecc_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0, 'vmax': 15,'cbar': 'ecc', 'cortex_type': cortex_type,
+param_ecc = {'data': ecc_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0, 'vmax': 10,'cbar': 'ecc', 'cortex_type': cortex_type,
              'description': '{} eccentricity'.format(task), 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': save_svg}
 maps_names.append('ecc')
 
 # Size
 size_data = deriv_mat[...,size_idx]
-param_size = {'data': size_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0, 'vmax': 15, 'cbar': 'discrete', 'cortex_type':cortex_type,
+param_size = {'data': size_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0, 'vmax': 10, 'cbar': 'discrete', 'cortex_type':cortex_type,
               'description': '{} size'.format(task), 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False}
 maps_names.append('size')
 

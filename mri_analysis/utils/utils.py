@@ -117,12 +117,12 @@ def draw_cortex_vertex(subject,xfmname,data,vmin,vmax,description,cortex_type='V
         alpha = alpha*255.0
 
         # define volume RGB
-        braindata = cortex.VolumeRGB(  channel1 = mat[...,0].T.astype(np.uint8),
-                                    channel2 = mat[...,1].T.astype(np.uint8),
-                                    channel3 = mat[...,2].T.astype(np.uint8),
-                                    alpha = alpha.T.astype(np.uint8),
-                                    subject = subject,
-                                    xfmname = xfmname)
+        braindata = cortex.VolumeRGB(channel1 = mat[...,0].T.astype(np.uint8),
+                                     channel2 = mat[...,1].T.astype(np.uint8),
+                                     channel3 = mat[...,2].T.astype(np.uint8),
+                                     alpha = alpha.T.astype(np.uint8),
+                                     subject = subject,
+                                     xfmname = xfmname)
     elif cortex_type=='Volume2D':
         braindata = cortex.Volume2D(dim1 = data.T,
                                  dim2 = alpha.T,
@@ -149,7 +149,6 @@ def draw_cortex_vertex(subject,xfmname,data,vmin,vmax,description,cortex_type='V
                                       subject = subject,
                                       alpha = alpha.astype(np.uint8))
         
-    
     braindata_fig = cortex.quickshow(braindata = braindata,
                                      depth = depth,
                                      thick = thick,

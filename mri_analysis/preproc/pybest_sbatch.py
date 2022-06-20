@@ -27,6 +27,7 @@ python preproc/pybest_sbatch.py [main directory] [project name] [subject num]
 Exemple:
 python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 T1w 2 0 martin.szinte
 python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-04 T1w 2 0 martin.szinte
+python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-05 T1w 2 0 martin.szinte
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------

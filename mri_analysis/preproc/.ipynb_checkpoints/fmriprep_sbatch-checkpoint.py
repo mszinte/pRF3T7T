@@ -34,6 +34,7 @@ python preproc/fmriprep_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 20 1 0 0 
 python preproc/fmriprep_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 20 0 0 0 0 1 12 martin.szinte
 python preproc/fmriprep_sbatch.py /scratch/mszinte/data pRF3T7T sub-04 20 0 0 0 0 1 6 martin.szinte
 python preproc/fmriprep_sbatch.py /scratch/mszinte/data pRF3T7T sub-05 20 0 0 0 0 1 6 martin.szinte
+python preproc/fmriprep_sbatch.py /scratch/mszinte/data pRF3T7T sub-06 20 0 0 0 0 1 6 martin.szinte
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------

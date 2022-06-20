@@ -15,6 +15,7 @@ To run:
 cd /home/mszinte/projects/pRF3T7T/mri_analysis/
 python preproc/pycortex_import.py sub-01
 python preproc/pycortex_import.py sub-04
+python preproc/pycortex_import.py sub-05
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
@@ -69,6 +70,9 @@ task_names = analysis_info['task_names']
 if subject == 'sub-04':
     task_names = [task_names[1]]
     xfm_names = [xfm_names[1]]
+elif subject == 'sub-05':
+    task_names = [task_names[1]]
+    xfm_names = [xfm_names[1]]
 
 # Set pycortex db and colormaps
 # -----------------------------
@@ -77,16 +81,15 @@ set_pycortex_config_file(base_dir)
 # Add participant to pycortex db
 # ------------------------------
 print('import subject in pycortex')
-cortex.freesurfer.import_subj(fs_subject=subject, 
-                              cx_subject=subject, 
-                              freesurfer_subject_dir=fs_dir, 
-                              whitematter_surf='smoothwm')
+cortex.freesurfer.import_subj(subject, subject, fs_dir, 'smoothwm')
 
 # Add participant flat maps
 # -------------------------
 print('import subject flatmaps')
-try: cortex.freesurfer.import_flat(fs_subject=subject, cx_subject=subject, freesurfer_subject_dir=fs_dir, patch='full', auto_overwrite=True)
-except: pass
+try: 
+    cortex.freesurfer.import_flat(fs_subject=subject, cx_subject=subject, freesurfer_subject_dir=fs_dir, patch='full', auto_overwrite=True)
+except: 
+    pass
 
 
 for xfm_num, xfm_name in enumerate(xfm_names):

@@ -25,6 +25,7 @@ python prf/fit/submit_fit_jobs.py sub-01 pRF3T T1w fmriprep_dct
 python prf/fit/submit_fit_jobs.py sub-01 pRF3T T1w fmriprep_dct_pca
 python prf/fit/submit_fit_jobs.py sub-01 pRF7T T1w fmriprep_dct
 python prf/fit/submit_fit_jobs.py sub-01 pRF7T T1w fmriprep_dct_pca
+python prf/fit/submit_fit_jobs.py sub-05 pRF7T T1w fmriprep_dct
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
