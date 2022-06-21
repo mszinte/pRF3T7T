@@ -25,7 +25,6 @@ Exemple:
 cd ~/disks/meso_H/projects/pRF3T7T/mri_analysis/
 ipython prf/post_fit/pycortex_maps.py sub-01 pRF3T T1w fmriprep_dct 0
 ipython prf/post_fit/pycortex_maps.py sub-01 pRF7T T1w fmriprep_dct 0
-ipython prf/post_fit/pycortex_maps.py sub-04 pRF7T T1w fmriprep_dct 0
 ipython prf/post_fit/pycortex_maps.py sub-05 pRF7T T1w fmriprep_dct 0
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)

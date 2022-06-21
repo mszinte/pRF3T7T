@@ -8,8 +8,7 @@ Comparison of 3 and 7T pRF experiment:<br>
 __sub-01:__ 5xpRF3T, 2xpRF7T on 3T anatomy<br>
 __sub-02:__ 5xpRF3T, 2xpRF7T on 7T anatomy<br>
 __sub-03:__ 2xpRF3T, 2xpRF7T on 3T anatomy<br>
-__sub-04:__ 2xpRF7T on 7T anatomy with topup/fieldmap/magnitude fmap files<br> 
-__sub-05:__ 2xpRF7T on 7T anatomy only with only topup fmap files<br> 
+__sub-05:__ 2xpRF7T on 7T anatomy<br> 
 
 # Task
 1. pRFexp: population receptive field task adapted to 3T sequence ([repo](https://invibe.nohost.me/gitlab/mszinte/pRFexp))

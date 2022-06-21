@@ -14,6 +14,7 @@ None
 To run:
 cd /home/mszinte/projects/pRF3T7T/mri_analysis/
 python preproc/pycortex_import.py sub-01
+python preproc/pycortex_import.py sub-02
 python preproc/pycortex_import.py sub-04
 python preproc/pycortex_import.py sub-05
 -----------------------------------------------------------------------------------------
