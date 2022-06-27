@@ -50,6 +50,9 @@ __sub-05:__ 2xpRF7T on 7T anatomy<br>
 2. compute pRF parameters with _prf/post_fit/run_post_fit.sh_
 3. make pycortex maps using with _prf/post_fit/run_pycortex_maps.sh_ 
 
+### Behavior
+1. Plot performance and kappa across runs using _behav/behav_results.ipynb_
+
 ### Webgl
 1. Combine pRF3T and pRF7T analysis in single webgl per subject using _webgl/pycortex_webgl.py_ or _webgl/run_webgl.sh_
 2. send index.py to webapp using _webgl/send_index.sh_
